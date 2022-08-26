@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="Discounttemplate" xml:space="preserve">
+	<t t-name="OrderDiscountButton" owl="1">
+		<!-- <t t-if="widget.env.pos.config.allow_order_disc"> -->
+			<div class="control-button">
+				Add Discount
+			</div>
+		<!-- </t> -->
+	</t>
+</templates>
+

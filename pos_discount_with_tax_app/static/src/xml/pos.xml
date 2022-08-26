@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_discount_template" inherit_id="point_of_sale.template" xml:space="preserve">
+
+	<t t-name="SelectDiscountPopup" owl='1'>
+		<div class="modal-dialog">
+			<div class="popup popup-confirm" style="min-height: 270px;">
+				<p class="title" style="background-color: rgb(110,200,155); color: #fff;">Select Discount</p>
+				<div class="body">
+					<div class='div-container' style="display: inline-grid;min-width: 80%;">
+						<table>
+							<tr>
+								<td style="padding-bottom: 15px;color: #0d9a54;">Allow Discount on Order</td>
+								<td>
+									<label class="switch"><input type="checkbox" id='on_order' class="discount_on"/>
+									<span class="slider round"></span></label>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-bottom: 15px;color: #0d9a54;">Allow Discount on OrderLine</td>
+								<td>
+									<label class="switch"><input type="checkbox" class="discount_on" id='on_orderline'/><span class="slider round"></span></label>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="footer" style="background-color: rgb(110,200,155); color: #fff; margin-top: 27px;">
+					<div class="button cancel" style="background-color: #0f77c9; color: #fff;" t-on-click="click_cancel">
+						Cancel
+					</div>
+					<div t-on-click="click_confirm" class="button confirm" id="apply_barcode_return_order" style="background-color: #0f77c9; color: #fff;">
+						Apply
+					</div>
+				</div>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="DiscountTypePopup" owl="1">
+		<div class="modal-dialog">
+			<div class="popup popup-confirm" style="min-height: 270px;">
+				<p class="title" style="background-color: rgb(110,200,155); color: #fff;">Select Discount Type</p>
+				<div class="body">
+					<div class='div-container' style="display: inline-grid;min-width: 80%;">
+						<table>
+							<tr>
+								<td style="padding-bottom: 15px;color: #0d9a54;">Fixed</td>
+								<td>
+									<label class="switch"><input type="checkbox" id='fixed' class="dicount_type"/>
+									<span class="slider round"></span></label>
+								</td>
+							</tr>
+							<tr>
+								<td style="padding-bottom: 15px;color: #0d9a54;">Percentage(%)</td>
+								<td>
+									<label class="switch"><input type="checkbox" id='percentage' class="dicount_type" /><span class="slider round"></span></label>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="footer" style="background-color: rgb(110,200,155); color: #fff; margin-top: 27px;">
+					<div class="button cancel" style="background-color: #0f77c9; color: #fff;" t-on-click="click_cancel">
+						Cancel
+					</div>
+					<div class="button confirm" id="apply_barcode_return_order" style="background-color: #0f77c9; color: #fff;" t-on-click="click_confirm">
+						Apply
+					</div>
+				</div>
+			</div>
+		</div>
+	</t>
+
+	<t t-name="OrderWidgetInherit" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension" owl="1">
+		<xpath expr="//OrderSummary" position="replace">
+			<OrderSummary total="state.total" tax="state.tax" discount="state.discount" subtotal="state.subtotal"/>
+		</xpath>
+	</t>
+	<t t-name="OrderSummaryInherit" t-inherit="point_of_sale.OrderSummary" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('line')]" position="replace">
+			<div class="line">
+				<div class="entry total">
+					<div class="subtotal" style="font-size: 20px;">
+						Subtotal: 
+						<span class="value">
+							<t t-esc="props.subtotal" />
+						</span>
+					</div>
+					<div t-if="props.tax" class="subentry" style="padding-bottom: 5px; font-size: 16px;">
+						Taxes:
+						<span class="value">
+							<t t-esc="props.tax" />
+						</span>
+					</div>
+					<div class="discount1" style="border-bottom: solid 2px; border-color: #777; padding-bottom: 5px; font-size: 16px; font-weight: normal; text-align: center;">
+						Discount:
+						<span class="value">
+							<t t-esc="props.discount"/>
+						</span>
+					</div>
+
+					<span class="badge">Total: </span>
+					<span class="value">
+						<t t-esc="props.total" />
+					</span>
+				</div>
+			</div>
+		</xpath>
+	</t>	
+	<t t-name="OrderlineInherit" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+		<xpath expr="//ul[hasclass('info-list')]" position="replace">
+			<ul class="info-list">
+                <t t-if="props.line.get_quantity_str() !== '1' || props.line.selected ">
+                    <li class="info">
+                        <em>
+                            <t t-esc="props.line.get_quantity_str()" />
+                        </em>
+                        <span> </span><t t-esc="props.line.get_unit().name" />
+                        at
+                        <t t-if="props.line.display_discount_policy() == 'without_discount' and
+                            props.line.get_unit_display_price() != props.line.get_lst_price()">
+                            <s>
+                                <t t-esc="env.pos.format_currency(props.line.get_fixed_lst_price(),'Product Price')" />
+                            </s>
+                            <t t-esc="env.pos.format_currency(props.line.get_unit_display_price(),'Product Price')" />
+                        </t>
+                        <t t-else="">
+                            <t t-esc="env.pos.format_currency(props.line.get_unit_display_price(),'Product Price')" />
+                        </t>
+                        /
+                        <t t-esc="props.line.get_unit().name" />
+                    </li>
+                </t>
+                <t t-if="props.line.get_discount_str() !== '0'">
+                    <t t-if="env.pos.config.allow_order_disc">
+						<t t-if="props.line.orderline_discount_type == 'fixed'">
+							<li class="info">
+								With a
+								<em>
+									<t t-esc="env.pos.format_currency(props.line.get_discount_str())"/>
+								</em>
+								discount
+							</li>
+						</t>
+						<t t-else="">
+							<li class="info">
+								With a
+								<em>
+									<t t-esc="props.line.get_discount_str()" />%
+								</em>
+								discount
+							</li>
+						</t>
+					</t>
+					<t t-else="">
+	                    <li class="info">
+	                        With a
+	                        <em>
+	                            <t t-esc="props.line.get_discount_str()" />%
+	                        </em>
+	                        discount
+	                    </li>
+	                </t>
+                </t>
+            </ul>
+		</xpath>
+	</t>
+	<t t-name="OrderReceiptInherit" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('pos-receipt')]" position="replace">
+			<div class="pos-receipt">
+				<t t-if="receipt.company.logo">
+	                <img class="pos-receipt-logo" t-att-src="receipt.company.logo" alt="Logo"/>
+	                <br/>
+	            </t>
+	            <t t-if="!receipt.company.logo">
+	                <h2 class="pos-receipt-center-align">
+	                    <t t-esc="receipt.company.name" />
+	                </h2>
+	                <br/>
+	            </t>
+	            <div class="pos-receipt-contact">
+	                <t t-if="receipt.company.contact_address">
+	                    <div><t t-esc="receipt.company.contact_address" /></div>
+	                </t>
+	                <t t-if="receipt.company.phone">
+	                    <div>Tel:<t t-esc="receipt.company.phone" /></div>
+	                </t>
+	                <t t-if="receipt.company.vat">
+	                    <div><t t-esc="receipt.company.vat_label"/>:<t t-esc="receipt.company.vat" /></div>
+	                </t>
+	                <t t-if="receipt.company.email">
+	                    <div><t t-esc="receipt.company.email" /></div>
+	                </t>
+	                <t t-if="receipt.company.website">
+	                    <div><t t-esc="receipt.company.website" /></div>
+	                </t>
+	                <t t-if="receipt.header_html">
+	                    <t t-raw="receipt.header_html" />
+	                </t>
+	                <t t-if="!receipt.header_html and receipt.header">
+	                    <div><t t-esc="receipt.header" /></div>
+	                </t>
+	                <t t-if="receipt.cashier">
+	                    <div class="cashier">
+	                        <div>--------------------------------</div>
+	                        <div>Served by <t t-esc="receipt.cashier" /></div>
+	                    </div>
+	                </t>
+	            </div>
+	            <br /><br />
+
+	            <!-- Orderlines -->
+	            <div class="orderlines">
+	                <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+	                    <t t-if="isSimple(line)">
+	                        <div>
+	                            <t t-esc="line.product_name_wrapped[0]" />
+	                            <span t-esc="env.pos.format_currency_no_symbol(line.price_display)" class="price_display pos-receipt-right-align"/>
+	                        </div>
+	                        <WrappedProductNameLines line="line" />
+	                    </t>
+	                    <t t-else="">
+	                        <div t-esc="line.product_name_wrapped[0]" />
+	                        <WrappedProductNameLines line="line" />
+	                        <t t-if="line.display_discount_policy == 'without_discount' and line.price != line.price_lst">
+	                            <div class="pos-receipt-left-padding">
+	                                <t t-esc="env.pos.format_currency_no_symbol(line.price_lst)" />
+	                                ->
+	                                <t t-esc="env.pos.format_currency_no_symbol(line.price)" />
+	                            </div>
+	                        </t>
+	                        <t t-elif="line.discount !== 0">
+	                            <div class="pos-receipt-left-padding">
+	                                <t t-if="env.pos.config.iface_tax_included === 'total'">
+	                                    <t t-esc="env.pos.format_currency_no_symbol(line.price_with_tax_before_discount)"/>
+	                                </t>
+	                                <t t-else="">
+	                                    <t t-esc="env.pos.format_currency_no_symbol(line.price)"/>
+	                                </t>
+	                            </div>
+	                        </t>
+	                        <div class="pos-receipt-left-padding">
+	                            <t t-esc="Math.round(line.quantity * Math.pow(10, env.pos.dp['Product Unit of Measure'])) / Math.pow(10, env.pos.dp['Product Unit of Measure'])"/>
+	                            <t t-if="line.unit_name !== 'Units'" t-esc="line.unit_name" />
+	                            x
+	                            <t t-esc="env.pos.format_currency_no_symbol(line.price_display_one)" />
+	                            <span class="price_display pos-receipt-right-align">
+	                                <t t-esc="env.pos.format_currency_no_symbol(line.price_display)" />
+	                            </span>
+	                        </div>
+	                        <t t-if="line.discount !== 0">
+	                        	 
+		                        <t t-if="line.orderline_discount_type == 'percentage'">
+		                            <div class="pos-receipt-left-padding">
+		                                Discount:<t t-esc="line.discount" />%
+		                            </div>
+		                        </t>
+		                        <t t-if="line.orderline_discount_type == 'fixed'">
+									<div class="pos-receipt-left-padding">
+										Discount:<t t-esc="env.pos.format_currency(line.discount)"/> 
+									</div>
+								</t>
+							</t>
+	                    </t>
+	                </t>
+	            </div>
+
+	            <t t-if="!isTaxIncluded">
+	                <div class="pos-receipt-right-align">--------</div>
+	                <br/>
+	                <div>Subtotal<span t-esc="env.pos.format_currency(receipt.subtotal)" class="pos-receipt-right-align"/></div>
+	                <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
+	                    <div>
+	                        <t t-esc="tax.name" />
+	                        <span t-esc='env.pos.format_currency_no_symbol(tax.amount)' class="pos-receipt-right-align"/>
+	                    </div>
+	                </t>
+	            </t>
+
+	            <div>Discount
+		            <t t-if="env.pos.get_order().discount_on == 'order'">
+						<span class="pos-receipt-right-align">
+							<t t-esc="env.pos.format_currency(env.pos.get_order().get_order_discount())"/>
+						</span>
+					</t>
+					<t t-if="env.pos.get_order().discount_on == 'orderline'">
+						<span class="pos-right-align">
+							<t t-esc="env.pos.format_currency(env.pos.get_order().get_fixed_discount())"/>
+						</span>
+					</t>
+				</div>
+                
+
+	            <!-- Total -->
+	            <div class="pos-receipt-right-align">--------</div>
+	            <br/>
+	            <div class="pos-receipt-amount">
+	                TOTAL
+	                <span t-esc="env.pos.format_currency(receipt.total_with_tax)" class="pos-receipt-right-align"/>
+	            </div>
+	            <t t-if="receipt.total_rounded != receipt.total_with_tax">
+	                <div class="pos-receipt-amount">
+	                    ROUNDED
+	                    <span t-esc="env.pos.format_currency(receipt.total_rounded)" class="pos-receipt-right-align"/>
+	                </div>
+	            </t>
+	            <br/><br/>
+
+	            <!-- Payment Lines -->
+
+	            <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
+	                <div>
+	                    <t t-esc="line.name" />
+	                    <span t-esc="env.pos.format_currency_no_symbol(line.amount)" class="pos-receipt-right-align"/>
+	                </div>
+	            </t>
+	            <br/>
+
+	            <div class="pos-receipt-amount receipt-change">
+	                CHANGE
+	                <span t-esc="env.pos.format_currency(receipt.change)" class="pos-receipt-right-align"/>
+	            </div>
+	            <br/>
+
+	            <!-- Extra Payment Info -->
+
+	            <t t-if="receipt.total_discount">
+	                <div>
+	                    Discounts
+	                    <span t-esc="env.pos.format_currency(receipt.total_discount)" class="pos-receipt-right-align"/>
+	                </div>
+	            </t>
+	            <t t-if="isTaxIncluded">
+	                <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
+	                    <div>
+	                        <t t-esc="tax.name" />
+	                        <span t-esc="env.pos.format_currency_no_symbol(tax.amount)" class="pos-receipt-right-align"/>
+	                    </div>
+	                </t>
+	                <div>
+	                    Total Taxes
+	                    <span t-esc="env.pos.format_currency(receipt.total_tax)" class="pos-receipt-right-align"/>
+	                </div>
+	            </t>
+
+	            <div class="before-footer" />
+
+	            <!-- Footer -->
+	            <div t-if="receipt.footer_html"  class="pos-receipt-center-align">
+	                <t t-raw="receipt.footer_html" />
+	            </div>
+
+	            <div t-if="!receipt.footer_html and receipt.footer"  class="pos-receipt-center-align" style="white-space:pre-line">
+	                <br/>
+	                <t t-esc="receipt.footer" />
+	                <br/>
+	                <br/>
+	            </div>
+
+	            <div class="after-footer">
+	                <t t-foreach="receipt.paymentlines" t-as="line">
+	                    <t t-if="line.ticket">
+	                        <br />
+	                        <div class="pos-payment-terminal-receipt">
+	                            <t t-raw="line.ticket" />
+	                        </div>
+	                    </t>
+	                </t>
+	            </div>
+
+	            <br/>
+	            <div class="pos-receipt-order-data">
+	                <div><t t-esc="receipt.name" /></div>
+	                <div><t t-esc="receipt.date.localestring" /></div>
+	            </div>
+
+	        </div>
+		</xpath>
+
+		<!-- <t t-jquery="table[class*='receipt-total']" t-operation="replace">
+			<table class='receipt-total'>
+				<tr>
+					<td>Subtotal:</td>
+					<td class="pos-right-align">
+						<t t-esc="widget.format_currency(order.get_total_without_tax())"/>
+					</td>
+				</tr>
+				<t t-foreach="order.get_tax_details()" t-as="taxdetail">
+					<tr>
+						<td><t t-esc="taxdetail.name" /></td>
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(taxdetail.amount)" />
+						</td>
+					</tr>
+				</t>
+				<tr>
+					<td>Discount:</td>
+					<t t-if="order.discount_on == 'order'">
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_order_discount())"/>
+						</td>
+					</t>
+					<t t-if="order.discount_on == 'orderline'">
+						<td class="pos-right-align">
+							<t t-esc="widget.format_currency(order.get_fixed_discount())"/>
+						</td>
+					</t>
+				</tr>
+				<tr class="emph">
+					<td>Total:</td>
+					<td class="pos-right-align">
+						<t t-esc="widget.format_currency(order.get_total_with_tax())"/>
+					</td>
+				</tr>
+			</table>
+		</t>  -->
+	</t> 
+</templates>
+
+
