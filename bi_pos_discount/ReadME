@@ -1,0 +1,14 @@
+
+=> 15.0.0.1 : Add French, Spanish , Arabic and Dutch translation in module also improved an index.
+
+Version 15.0.0.2 : (07-03-22)
+		- Update _recompute_tax_lines() method as per base.
+		- Update invoice create process and some other changes as per version migration.
+
+Version 15.0.0.3 : (20-04-22)
+-Improvement:-
+			-- Make compitable with refund order functionality.
+
+
+Version 15.0.0.4 : (17-08-22)
+	-- calculate fixed discount based on product qty. 

@@ -1,0 +1,199 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bi_pos_discount
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-13 13:44+0000\n"
+"PO-Revision-Date: 2021-12-13 13:44+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.report_invoice_document_inherit_discount
+msgid "<span>Disc.</span>"
+msgstr "<span>قرص.</span>"
+
+#. module: bi_pos_discount
+#: code:addons/bi_pos_discount/models/pos.py:0
+#, python-format
+msgid "Customer Invoice"
+msgstr "فاتورة العميل"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.view_move_form_inherits
+msgid "Disc"
+msgstr "قرص"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.report_saledetails_inherit_discount
+msgid "Disc:"
+msgstr "قرص:"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.pos_order_line_inherit
+msgid "Discount"
+msgstr "خصم"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.custom_bi_pos_discount_form_view
+msgid "Discount Configuration in POS"
+msgstr "تكوين الخصم في نقاط البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model.fields,field_description:bi_pos_discount.field_account_move_line__discount_line_type
+#: model:ir.model.fields,field_description:bi_pos_discount.field_pos_config__discount_type
+#: model:ir.model.fields,field_description:bi_pos_discount.field_pos_order__discount_type
+#: model:ir.model.fields,field_description:bi_pos_discount.field_pos_order_line__discount_line_type
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.custom_bi_pos_discount_form_view
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.view_move_form_inherits
+msgid "Discount Type"
+msgstr "نوع الخصم"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.pos_order_line_inherit_tree
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.pos_sale_order_discount_type
+msgid "Discount type"
+msgstr "نوع الخصم"
+
+#. module: bi_pos_discount
+#. openerp-web
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#, python-format
+msgid "Discount:"
+msgstr "خصم:"
+
+#. module: bi_pos_discount
+#. openerp-web
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#, python-format
+msgid "Discounts"
+msgstr "الخصومات"
+
+#. module: bi_pos_discount
+#: model:ir.model.fields.selection,name:bi_pos_discount.selection__pos_config__discount_type__fixed
+msgid "Fixed"
+msgstr "مثبت"
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_account_move
+msgid "Journal Entries"
+msgstr "إدخالات دفتر اليومية"
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_account_move_line
+msgid "Journal Item"
+msgstr "عنصر المجلة"
+
+#. module: bi_pos_discount
+#: code:addons/bi_pos_discount/models/pos.py:0
+#, python-format
+msgid "No Taxes"
+msgstr "لا ضرائب"
+
+#. module: bi_pos_discount
+#: model:ir.model.fields,field_description:bi_pos_discount.field_account_move__pos_order_id
+#: model:ir.model.fields,field_description:bi_pos_discount.field_account_move_line__pos_order_id
+msgid "POS order"
+msgstr "طلب نقاط البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model.fields,field_description:bi_pos_discount.field_account_move_line__pos_order_line_id
+msgid "POS order Line"
+msgstr "خط طلب نقاط البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model.fields.selection,name:bi_pos_discount.selection__pos_config__discount_type__percentage
+msgid "Percentage"
+msgstr "النسبة المئوية"
+
+#. module: bi_pos_discount
+#: code:addons/bi_pos_discount/models/pos.py:0
+#, python-format
+msgid "Please provide a partner for the sale."
+msgstr "يرجى تقديم شريك للبيع."
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "تكوين نقطة البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_report_point_of_sale_report_saledetails
+msgid "Point of Sale Details"
+msgstr "تفاصيل نقاط البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_pos_order_line
+msgid "Point of Sale Order Lines"
+msgstr "خطوط أوامر نقاط البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "أوامر نقاط البيع"
+
+#. module: bi_pos_discount
+#: model:ir.model,name:bi_pos_discount.model_report_pos_order
+msgid "Point of Sale Orders Report"
+msgstr "تقرير أوامر نقاط البيع"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.report_saledetails_inherit_discount
+msgid "Price Unit"
+msgstr "وحدة السعر"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.report_saledetails_inherit_discount
+msgid "Product"
+msgstr "منتج"
+
+#. module: bi_pos_discount
+#: model_terms:ir.ui.view,arch_db:bi_pos_discount.report_saledetails_inherit_discount
+msgid "Quantity"
+msgstr "كمية"
+
+#. module: bi_pos_discount
+#: model:ir.model.fields,help:bi_pos_discount.field_pos_config__discount_type
+msgid "Seller can apply different Discount Type in POS."
+msgstr "يمكن للبائع تطبيق نوع خصم مختلف في نقاط البيع."
+
+#. module: bi_pos_discount
+#: code:addons/bi_pos_discount/models/pos.py:0
+#, python-format
+msgid ""
+"This invoice has been created from the point of sale session: <a href=# "
+"data-oe-model=pos.order data-oe-id=%d>%s</a>"
+msgstr ""
+"تم إنشاء هذه الفاتورة من جلسة نقطة البيع: <a href=# "
+"data-oe-model=pos.order data-oe-id=%d>%s</a>"
+
+#. module: bi_pos_discount
+#. openerp-web
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#, python-format
+msgid "With a"
+msgstr "مع"
+
+#. module: bi_pos_discount
+#. openerp-web
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#, python-format
+msgid "at"
+msgstr "في"
+
+#. module: bi_pos_discount
+#. openerp-web
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#: code:addons/bi_pos_discount/static/src/xml/pos.xml:0
+#, python-format
+msgid "discount"
+msgstr "خصم"
