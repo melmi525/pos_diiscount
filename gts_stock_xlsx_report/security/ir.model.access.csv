@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_daily_stock_report,daily_stock_report,model_daily_stock_report,,1,1,1,1
+access_xlsx_output,xlsx_output,model_xlsx_output,,1,1,1,1
+
+
